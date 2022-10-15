@@ -4,17 +4,11 @@
             <div v-if="this.confirm.success == true">
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <strong>{{ this.confirm.message }}</strong>
-                    <b-button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </b-button>
                 </div>
             </div>
             <div v-if="this.confirm.success == false">
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <strong>{{ this.confirm.message }}</strong>
-                    <b-button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </b-button>
                 </div>
             </div>
         </div>
@@ -27,9 +21,9 @@
             </div>
         </b-modal>
         <div>
-            <!-- <b-button @click="toggleBusy">Toggle Busy State</b-button> -->
-            <b-button class="btn btn-primary" @click="inserir()">Novo Estado</b-button>
-            <!-- <router-link to="/estado/inserir" class="button btn btn-primary">Inserir Estado</router-link> -->
+            <div id="inserir-class" class="row d-flex flex-column">
+                <b-button id="novo-estado-button" class="btn btn-primary" @click="inserir()">Novo Estado</b-button>
+            </div>
             <b-table id="estados_table" responsive :items="estados" :busy="isBusy" :fields="fields" class="mt-3"
                 outlined>
                 <template #cell(acoes)="data">
@@ -128,5 +122,12 @@ export default {
 <style>
 #estados_table {
     width: 100%;
+}
+#novo-estado-button {
+    width: 150px;
+}
+#inserir-class{
+    align-items: flex-end;
+    margin-right: 1px;
 }
 </style>

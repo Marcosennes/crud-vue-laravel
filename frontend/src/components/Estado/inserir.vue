@@ -1,13 +1,17 @@
 <template>
-    <div style="margin-top: 100px;">
-        <!-- <div v-for="(erro, index) in errors" :key="index" style="border: 1px solid red; margin-bottom: 10px;">
-            {{ erro }}
-        </div> -->
-        <form @submit.prevent="enviaFormulario">
-            <input type="text" placeholder="Nome" v-model="form.nome" />
-            <input type="text" placeholder="Abreviação" v-model="form.abreviacao" />
-            <button type="submit">Cadastrar</button>
-        </form>
+    <div>
+        <b-form @submit.prevent="enviaFormulario">
+            <b-form-group id="input-group-1" label="Nome:" label-for="input-1">
+                <b-form-input id="input-1" v-model="form.nome" type="text" placeholder="Nome">
+                </b-form-input>
+            </b-form-group>
+
+            <b-form-group id="input-group-2" class="mt-2" label="Abreviação:" label-for="input-2">
+                <b-form-input id="input-2" v-model="form.abreviacao" placeholder="Abreviação"></b-form-input>
+            </b-form-group>
+
+            <b-button id="cadastrar-button" class="mt-2" type="submit" variant="primary">Cadastrar</b-button>
+        </b-form>
     </div>
 </template>
 
@@ -44,15 +48,14 @@ export default {
                         this.$emit('estadoInserido', response.data.estado)
 
                         this.$emit('closeModal', true)
-
-                        this.$parent.getEstados();
                     }
                 })
                 .catch(error => {
-                    if(error.response.status == 422) {
+                    if (error.response.status == 422) {
+                        this.$emit('closeModal', true)
                         this.$emit('confirm', {
                             success: false,
-                            message: Object.values(error.response.data.errors)[0][0]
+                            message: "O Estado não foi inserido pois o campo " + Object.values(error.response.data.errors)[0][0]
                         })
                     }
                 });
@@ -65,3 +68,9 @@ export default {
 
 };
 </script>
+
+<style>
+#cadastrar-button {
+    float: right;
+}
+</style>

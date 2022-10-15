@@ -1,7 +1,6 @@
 <template>
     <div>
         <div>
-            <h1>Visualizar Estado</h1>
             <p>Nome: {{nome}}</p>
             <p>Abreviação: {{abreviacao}}</p>
             <p>Criado em: {{created_at}}</p>
