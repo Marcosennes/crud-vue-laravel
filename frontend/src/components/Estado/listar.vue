@@ -18,17 +18,23 @@
                 </div>
             </div>
         </div>
+        <b-modal hide-footer ref="inserir">
+            <Inserir @confirm="updateConfirm" @estadoInserido="updateEstados" @closeModal="closeModalInsert"></Inserir>
+        </b-modal>
         <div v-if="id_detalhar_estado">
-            <Detalhar :id="id_detalhar_estado"/>
+            <Detalhar :id="id_detalhar_estado" />
         </div>
         <div>
             <!-- <b-button @click="toggleBusy">Toggle Busy State</b-button> -->
-            <!-- <b-button class="btn btn-primary" @click="novoEstado">Novo Estado</b-button> -->
-            <b-table id="estados_table" responsive :items="estados" :busy="isBusy" :fields="fields" class="mt-3" outlined>
+            <b-button class="btn btn-primary" @click="inserir()">Novo Estado</b-button>
+            <!-- <router-link to="/estado/inserir" class="button btn btn-primary">Inserir Estado</router-link> -->
+            <b-table id="estados_table" responsive :items="estados" :busy="isBusy" :fields="fields" class="mt-3"
+                outlined>
                 <template #cell(acoes)="data">
                     <b-button size="sm" variant="info" @click="detalhar(data.item.id)">Visualizar</b-button>
                     <!-- <b-button size="sm" variant="warning" @click="alterar()">Alterar</b-button> -->
-                    <b-button size="sm" variant="danger" @click="excluir(estados.indexOf(data.item), data.item.id)">Excluir
+                    <b-button size="sm" variant="danger" @click="excluir(estados.indexOf(data.item), data.item.id)">
+                        Excluir
                     </b-button>
                 </template>
                 <template #table-busy>
@@ -45,10 +51,11 @@
 <script>
 import axios from 'axios'
 import Detalhar from './visualizar.vue';
+import Inserir from './inserir.vue';
 
 export default {
     name: "listarEstado",
-    components: { Detalhar },
+    components: { Detalhar, Inserir },
     data() {
         return {
             isBusy: false,
@@ -84,6 +91,9 @@ export default {
                 console.log("Erro ao buscar dados");
             }
         },
+        inserir() {
+            this.$refs.inserir.show();
+        },
         excluir(index, id) {
             if (confirm("Deseja realmente excluir este registro?")) {
                 axios.delete("http://localhost:8000/api/estado/excluir/" + id)
@@ -96,15 +106,24 @@ export default {
                     });
             }
         },
-        detalhar(id){
+        detalhar(id) {
             this.id_detalhar_estado = id;
-        }
+        },
+        updateConfirm(confirm) {
+            this.confirm = confirm;
+        },
+        updateEstados(estado) {
+            this.estados.push(estado);
+        },
+        closeModalInsert() {
+            this.$refs.inserir.hide();
+        },
     }
 };
 </script>
 
 <style>
-    #estados_table {
-        width: 100%;
-    }
+#estados_table {
+    width: 100%;
+}
 </style>

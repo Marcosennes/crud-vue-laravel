@@ -22,11 +22,12 @@ class EstadoController extends Controller
 
     public function inserir(EstadoRequest $request){
 
-        Estado::create($request->all());
+        $estado = Estado::create($request->all());
 
         return response()->json([
             'success'   => true,
-            'message'   => 'Estado inserido com sucesso.'
+            'message'   => 'Estado inserido com sucesso.',
+            'estado'    => $estado->getAttributes()
         ]);
     }
 
