@@ -3,11 +3,10 @@
         <!-- <b-button @click="toggleBusy">Toggle Busy State</b-button> -->
 
         <b-table responsive :items="estados" :busy="isBusy" :fields="fields" class="mt-3" outlined>
-            <!-- <template #cell(acoes)="data">
+            <template #cell(acoes)="data">
                 <b-button size="sm" variant="warning" @click="alterar()">Alterar</b-button>
-                <b-button size="sm" variant="danger">Excluir</b-button>
-            </template> -->
-            <!-- <b-button size="sm" variant="danger" @click="excluir(data.item.id)">Excluir</b-button> -->
+                <b-button size="sm" variant="danger" @click="excluir(data.item.id)">Excluir</b-button>
+            </template>
             <template #table-busy>
                 <div class="text-center text-danger my-2">
                     <b-spinner class="align-middle"></b-spinner>
@@ -54,10 +53,20 @@ export default {
             }
         },
 
-        // excluir(id) {
-        //     if (confirm('Deseja realmente excluir este registro?')) {
-        //     }
-        // },
+        excluir(id) {
+            if (confirm('Deseja realmente excluir este registro?')) {
+                axios.delete('http://localhost:8000/api/estado/excluir/' + id)
+                    .then(response => {
+                        if (response.status == 200) {
+                            this.estados.forEach((estado, index) => {
+                                if (estado.id == id) {
+                                    this.estados.splice(index, 1);
+                                }
+                            });
+                        }
+                    })
+            }
+        },
     }
 };
 </script>
