@@ -18,12 +18,14 @@
                 </div>
             </div>
         </div>
-        <b-modal hide-footer ref="inserir">
+        <b-modal hide-footer ref="inserir" title="Inserir Estado">
             <Inserir @confirm="updateConfirm" @estadoInserido="updateEstados" @closeModal="closeModalInsert"></Inserir>
         </b-modal>
-        <div v-if="id_detalhar_estado">
-            <Detalhar :id="id_detalhar_estado" />
-        </div>
+        <b-modal hide-footer ref="detalhar" title="Detalhes Estado">
+            <div v-if="id_detalhar_estado">
+                <Detalhar :id="id_detalhar_estado" />
+            </div>
+        </b-modal>
         <div>
             <!-- <b-button @click="toggleBusy">Toggle Busy State</b-button> -->
             <b-button class="btn btn-primary" @click="inserir()">Novo Estado</b-button>
@@ -107,6 +109,7 @@ export default {
             }
         },
         detalhar(id) {
+            this.$refs.detalhar.show();
             this.id_detalhar_estado = id;
         },
         updateConfirm(confirm) {
