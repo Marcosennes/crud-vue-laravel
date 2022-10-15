@@ -1,11 +1,29 @@
 <template>
     <div>
-        <!-- <b-button @click="toggleBusy">Toggle Busy State</b-button> -->
-
+        <div v-if="this.confirm.success != null">
+            <div v-if="this.confirm.success == true">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>{{ this.confirm.message }}</strong>
+                    <b-button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </b-button>
+                </div>
+            </div>
+            <div v-if="this.confirm.success == false">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>{{ this.confirm.message }}</strong>
+                    <b-button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </b-button>
+                </div>
+            </div>
+        </div>
+        <b-button @click="toggleBusy">Toggle Busy State</b-button>
         <b-table responsive :items="estados" :busy="isBusy" :fields="fields" class="mt-3" outlined>
             <template #cell(acoes)="data">
                 <b-button size="sm" variant="warning" @click="alterar()">Alterar</b-button>
-                <b-button size="sm" variant="danger" @click="excluir(data.item.id)">Excluir</b-button>
+                <b-button size="sm" variant="danger" @click="excluir(estados.indexOf(data.item), data.item.id)">Excluir
+                </b-button>
             </template>
             <template #table-busy>
                 <div class="text-center text-danger my-2">
@@ -34,9 +52,13 @@ export default {
                 { key: 'acoes', label: 'Ações' },
             ],
             acoes: ["Editar", "Excluir"],
+            confirm: {
+                success: null,
+                message: null,
+            },
         }
     },
-    mounted(){
+    mounted() {
         this.getEstados();
     },
     methods: {
@@ -53,16 +75,14 @@ export default {
             }
         },
 
-        excluir(id) {
+        excluir(index, id) {
             if (confirm('Deseja realmente excluir este registro?')) {
                 axios.delete('http://localhost:8000/api/estado/excluir/' + id)
                     .then(response => {
                         if (response.status == 200) {
-                            this.estados.forEach((estado, index) => {
-                                if (estado.id == id) {
-                                    this.estados.splice(index, 1);
-                                }
-                            });
+                            this.confirm.success = response.data.success
+                            this.confirm.message = response.data.message
+                            this.estados.splice(index, 1);
                         }
                     })
             }
