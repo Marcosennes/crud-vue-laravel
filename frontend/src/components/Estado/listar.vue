@@ -18,8 +18,8 @@
                 </div>
             </div>
         </div>
-        <div v-if="detalhar_estado.id">
-            <Detalhar :id="detalhar_estado.id" :nome="detalhar_estado.nome" :abreviacao="detalhar_estado.abreviacao" :created_at="detalhar_estado.created_at" :updated_at="detalhar_estado.updated_at"/>
+        <div v-if="id_detalhar_estado">
+            <Detalhar :id="id_detalhar_estado"/>
         </div>
         <div>
             <!-- <b-button @click="toggleBusy">Toggle Busy State</b-button> -->
@@ -65,13 +65,7 @@ export default {
                 success: null,
                 message: null,
             },
-            detalhar_estado: {
-                id: null,
-                nome: null,
-                abreviacao: null,
-                created_at: null,
-                updated_at: null,
-            },
+            id_detalhar_estado: null,
         };
     },
     mounted() {
@@ -103,16 +97,7 @@ export default {
             }
         },
         detalhar(id){
-            axios.get("http://localhost:8000/api/estado/detalhar/" + id)
-                .then(response => {
-                    if (response.status == 200) {
-                        this.detalhar_estado.id          = response.data.estado.id;
-                        this.detalhar_estado.nome        = response.data.estado.nome;
-                        this.detalhar_estado.abreviacao  = response.data.estado.abreviacao;
-                        this.detalhar_estado.created_at  = response.data.estado.created_at;
-                        this.detalhar_estado.updated_at  = response.data.estado.updated_at;
-                    }
-                });
+            this.id_detalhar_estado = id;
         }
     }
 };
