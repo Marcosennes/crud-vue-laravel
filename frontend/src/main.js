@@ -20,10 +20,10 @@ Vue.use(VueRouter);
 Vue.config.productionTip = false
 
 const routes = [
-    { path: '/',        name: 'home',  component:  HomeComponent},
-    { path: '/about',   component:  AboutComponent },
-    { path: '/estado/listar',   component:  EstadoComponent },
-    { path: '/estado/inserir',   component:  EstadoInserirComponent },
+    { path: '/',                      name: 'home',  component:  HomeComponent},
+    { path: '/about',                 component:  AboutComponent },
+    { path: '/estado/listar',         component:  EstadoComponent },
+    { path: '/estado/inserir',        component:  EstadoInserirComponent },
 ]
 
 const router = new VueRouter({

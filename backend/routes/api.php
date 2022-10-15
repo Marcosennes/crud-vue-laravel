@@ -29,7 +29,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     Route::controller(EstadoController::class)->group(function () {
         Route::get('/estado/listar', 'index')->name('estado.index');
         Route::post('/estado/inserir', 'inserir')->name('estado.inserir');
-        Route::get('/estado/alterar', 'alterarIndex')->name('estado.alterar.index');
+        Route::get('/estado/detalhar/{id}', 'detalhar')->name('estado.detalhar');
+        Route::get('/estado/alterar/{id}', 'alterarIndex')->name('estado.alterar.index');
         Route::put('/estado/alterar', 'alterar')->name('estado.alterar');
         Route::delete('/estado/excluir/{id}', 'excluir')->name('estado.excluir');
     });

@@ -33,6 +33,12 @@ class EstadoController extends Controller
     public function alterar($id, Request $request){
 
     }
+
+    public function detalhar($id){
+        $estado = Estado::find($id);
+
+        return response()->json(['estado' => $estado]);
+    }
     
     public function excluir($id){
         $estado = Estado::find(intval($id));
