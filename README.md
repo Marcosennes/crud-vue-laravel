@@ -35,7 +35,7 @@ Em relação ao Laravel, eu já havia conhecimento do Framework e da linguagem P
 - `php artisan migrate`
 - `php artisan serve --port=8000`
 
-A Aplicação Backend será executada na porta 8000.
+A aplicação Backend será executada na porta 8000.
 
 - `cd ../frontend`
 - `npm install`
