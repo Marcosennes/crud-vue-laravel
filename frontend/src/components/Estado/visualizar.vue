@@ -37,8 +37,8 @@ export default {
             if (response.status == 200) {
                 this.nome = response.data.estado.nome;
                 this.abreviacao = response.data.estado.abreviacao;
-                this.created_at = response.data.estado.created_at;
-                this.updated_at = response.data.estado.updated_at;
+                this.created_at = new Date(response.data.estado.created_at).toLocaleString('pt-br', { timeZone: 'America/Sao_Paulo'});
+                this.updated_at = new Date(response.data.estado.updated_at).toLocaleString('pt-br', { timeZone: 'America/Sao_Paulo'});
             }
             else {
                 alert("Erro ao buscar dados");
