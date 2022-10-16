@@ -15,7 +15,7 @@ class Cidade extends Migration
     {
         Schema::create('cidade', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nome');
+            $table->string('nome')->unique();
             $table->unsignedInteger('estadoId');
             $table->foreign('estadoId')->references('id')->on('estado');
             $table->timestamps();

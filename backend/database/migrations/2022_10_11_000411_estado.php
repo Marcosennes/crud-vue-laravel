@@ -15,8 +15,8 @@ class Estado extends Migration
     {
         Schema::create('estado', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nome');
-            $table->char('abreviacao', 2);
+            $table->string('nome')->unique();
+            $table->char('abreviacao', 2)->unique();
             $table->timestamps();
         });
     }
