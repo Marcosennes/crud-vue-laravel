@@ -51,10 +51,10 @@ php artisan migrate
 php artisan serve --port=8000
 ```
 
-- A aplicação Backend será executada na porta 8000.
+- A aplicação Backend será executada na porta 8000. Agora precisamos configurar a aplicação do projeto. Abra um novo terminal na pasta raiz do projeto (crud-vue-laravel) e execute:
 
 ```
-cd ../frontend
+cd frontend
 ```
 ```
 npm install
