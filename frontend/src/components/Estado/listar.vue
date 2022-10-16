@@ -93,7 +93,7 @@ export default {
             id_detalhar_estado: null,
             id_estado_a_ser_alterado: null,
             filteredEstado: null,
-            perPage: 3,
+            perPage: 5,
             currentPage: 1,
         };
     },
