@@ -26,8 +26,7 @@ Em relação ao Laravel, eu já havia conhecimento do Framework e da linguagem P
 
 ## Instalação
 - `git clone https://github.com/Marcosennes/crud-vue-laravel.git`
-- `cd crud-laravel-vue`
-- `cd backend`
+- `cd crud-vue-laravel/backend`
 - `composer install`
 - `cp .env.example .env`
 - Configure o arquivo `.env` com suas configurações
