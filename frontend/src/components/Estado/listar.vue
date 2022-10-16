@@ -27,7 +27,7 @@
             </div>
         </b-modal>
         <div>
-            <div id="inserir-class" class="row d-flex flex-column">
+            <div id="inserir-class" class="row d-flex flex-column mt-3">
                 <b-button id="novo-estado-button" class="btn btn-primary" @click="inserir()">
                     <b-icon icon="plus" scale="1"></b-icon> Novo Estado
                 </b-button>
@@ -35,7 +35,10 @@
             <b-table id="estados_table" responsive :items="estados" :busy="isBusy" :fields="fields" class="mt-3"
                 outlined>
                 <template #cell(created_at)="data">
-                    {{ new Date(data.item.created_at).toUTCString() }}
+                    {{ new Date(data.item.created_at).toLocaleString() }}
+                </template>
+                <template #cell(updated_at)="data">
+                    {{ new Date(data.item.updated_at).toLocaleString() }}
                 </template>
                 <template #cell(acoes)="data">
                     <b-button size="sm" variant="info" @click="detalhar(data.item.id)">
