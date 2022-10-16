@@ -35,10 +35,10 @@
             <b-table id="estados_table" responsive :items="estados" :busy="isBusy" :fields="fields" class="mt-3"
                 outlined>
                 <template #cell(created_at)="data">
-                    {{ new Date(data.item.created_at).toLocaleString() }}
+                    {{ new Date(data.item.created_at).toLocaleString('pt-br', { timeZone: 'America/Sao_Paulo'}) }}
                 </template>
                 <template #cell(updated_at)="data">
-                    {{ new Date(data.item.updated_at).toLocaleString() }}
+                    {{ new Date(data.item.updated_at).toLocaleString('pt-br', { timeZone: 'America/Sao_Paulo'}) }}
                 </template>
                 <template #cell(acoes)="data">
                     <b-button size="sm" variant="info" @click="detalhar(data.item.id)">
