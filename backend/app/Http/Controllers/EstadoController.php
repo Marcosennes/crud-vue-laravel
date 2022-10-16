@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Requests\EstadoCreateRequest;
 use App\Http\Requests\EstadoUpdateRequest;
 use App\Models\Estado;
@@ -43,6 +44,12 @@ class EstadoController extends Controller
         $estado = Estado::find($id);
 
         return response()->json(['estado' => $estado]);
+    }
+
+    public function filtrar($filter){
+        $estados = Estado::where('nome', 'like', '%' . $filter . '%')->get();
+
+        return response()->json(['estados' => $estados]);
     }
     
     public function excluir($id){

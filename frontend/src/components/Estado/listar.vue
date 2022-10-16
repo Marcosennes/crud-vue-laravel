@@ -26,33 +26,39 @@
                 <Detalhar :id_estado="id_detalhar_estado" />
             </div>
         </b-modal>
-        <div>
-            <div id="inserir-class" class="row d-flex flex-column mt-3">
+        <div id="filter-insert" class="row mt-3">
+            <div class="col-2">
+                <p>Filtro: </p>
+            </div>
+            <div class="col-8">
+                <b-form-input id="input-1" v-model="filteredEstado" type="text" placeholder="Nome do Estado" required>
+                </b-form-input>
+            </div>
+            <div class="col-2">
                 <b-button id="novo-estado-button" class="btn btn-primary" @click="inserir()">
                     <b-icon icon="plus" scale="1"></b-icon> Novo Estado
                 </b-button>
             </div>
-            <b-table id="estados_table" responsive :items="estados" :busy="isBusy" :fields="fields" class="mt-3"
-                outlined>
-                <template #cell(created_at)="data">
-                    {{ new Date(data.item.created_at).toLocaleString('pt-br', { timeZone: 'America/Sao_Paulo'}) }}
-                </template>
-                <template #cell(updated_at)="data">
-                    {{ new Date(data.item.updated_at).toLocaleString('pt-br', { timeZone: 'America/Sao_Paulo'}) }}
-                </template>
-                <template #cell(acoes)="data">
-                    <b-button size="sm" variant="info" @click="detalhar(data.item.id)">
-                        <b-icon icon="eye-fill" scale="1"></b-icon>
-                    </b-button>
-                    <b-button size="sm" variant="warning" @click="alterar(data.item.id)">
-                        <b-icon icon="pencil-fill" scale="1"></b-icon>
-                    </b-button>
-                    <b-button size="sm" variant="danger" @click="excluir(estados.indexOf(data.item), data.item.id)">
-                        <b-icon icon="trash-fill" scale="1"></b-icon>
-                    </b-button>
-                </template>
-            </b-table>
         </div>
+        <b-table id="estados_table" responsive :items="estados" :busy="isBusy" :fields="fields" class="mt-3" outlined>
+            <template #cell(created_at)="data">
+                {{ new Date(data.item.created_at).toLocaleString('pt-br', { timeZone: 'America/Sao_Paulo'}) }}
+            </template>
+            <template #cell(updated_at)="data">
+                {{ new Date(data.item.updated_at).toLocaleString('pt-br', { timeZone: 'America/Sao_Paulo'}) }}
+            </template>
+            <template #cell(acoes)="data">
+                <b-button size="sm" variant="info" @click="detalhar(data.item.id)">
+                    <b-icon icon="eye-fill" scale="1"></b-icon>
+                </b-button>
+                <b-button size="sm" variant="warning" @click="alterar(data.item.id)">
+                    <b-icon icon="pencil-fill" scale="1"></b-icon>
+                </b-button>
+                <b-button size="sm" variant="danger" @click="excluir(estados.indexOf(data.item), data.item.id)">
+                    <b-icon icon="trash-fill" scale="1"></b-icon>
+                </b-button>
+            </template>
+        </b-table>
     </div>
 </template>
 
@@ -82,11 +88,29 @@ export default {
                 message: null,
             },
             id_detalhar_estado: null,
-            id_estado_a_ser_alterado: null
+            id_estado_a_ser_alterado: null,
+            filteredEstado: null,
         };
     },
     mounted() {
         this.getEstados();
+    },
+    watch: {
+        filteredEstado: function () {
+            if (this.filteredEstado != null && this.filteredEstado != "") {
+                axios.get("http://localhost:8000/api/estado/filtrar/" + this.filteredEstado)
+                    .then(response => {
+                        if (response.status == 200) {
+                            this.estados = response.data.estados;
+                        }
+                        else {
+                            console.log("Erro ao buscar dados");
+                        }
+                    });
+            } else {
+                this.getEstados();
+            }
+        }
     },
     methods: {
         toggleBusy() {
@@ -115,7 +139,7 @@ export default {
                         if (response.status == 200) {
                             this.confirm.success = response.data.success;
                             this.confirm.message = response.data.message;
-                            if(response.data.success == true){
+                            if (response.data.success == true) {
                                 this.estados.splice(index, 1);
                             }
                         }
@@ -155,9 +179,9 @@ export default {
     width: 150px;
 }
 
-#inserir-class {
-    align-items: flex-end;
-    margin-right: 1px;
+#filter-insert p{
+    font-size: 1.3rem;
+    margin: 0;
 }
 
 table button {

@@ -32,6 +32,7 @@ Route::middleware('api')->group(function () {
         Route::get('/estado/detalhar/{id}', 'detalhar')->name('estado.detalhar');
         Route::post('/estado/alterar', 'alterar')->name('estado.alterar');
         Route::delete('/estado/excluir/{id}', 'excluir')->name('estado.excluir');
+        Route::get('/estado/filtrar/{filter}', 'filtrar')->name('estado.filtrar');
     });
 
     Route::controller(CidadeController::class)->group(function () {
