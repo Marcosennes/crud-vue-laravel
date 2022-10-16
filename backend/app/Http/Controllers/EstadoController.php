@@ -47,6 +47,12 @@ class EstadoController extends Controller
     
     public function excluir($id){
         $estado = Estado::find(intval($id));
+        if($estado->cidades->count() > 0){
+            return response()->json([
+                'success'   => false,
+                'message'   => 'Não é possível excluir o estado ' . $estado->nome . ' pois existem cidades associadas a ele.'
+            ]);
+        }
         $exclusao_confirmacao = $estado->delete();
 
         if($exclusao_confirmacao){

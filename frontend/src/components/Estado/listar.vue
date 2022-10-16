@@ -115,7 +115,9 @@ export default {
                         if (response.status == 200) {
                             this.confirm.success = response.data.success;
                             this.confirm.message = response.data.message;
-                            this.estados.splice(index, 1);
+                            if(response.data.success == true){
+                                this.estados.splice(index, 1);
+                            }
                         }
                     });
             }
