@@ -25,22 +25,45 @@ A construção de uma SPA (Single-Page Application) utilizando Vue.js foi uma no
 Em relação ao Laravel, eu já havia conhecimento do Framework e da linguagem PHP e consegui desenvolver um código limpo e que cumpra as exigências do desafio.
 
 ## Instalação
-- `git clone https://github.com/Marcosennes/crud-vue-laravel.git`
-- `cd crud-vue-laravel/backend`
-- `composer install`
-- `cp .env.example .env`
+
+```
+git clone https://github.com/Marcosennes/crud-vue-laravel.git
+```
+```
+cd crud-vue-laravel/backend
+```
+```
+composer install
+```
+```
+cp .env.example .env
+```
+
 - Configure o arquivo `.env` com suas configurações
-- `php artisan key:generate`
-- `php artisan migrate`
-- `php artisan serve --port=8000`
 
-A aplicação Backend será executada na porta 8000.
+```
+php artisan key:generate
+```
+```
+php artisan migrate
+```
+```
+php artisan serve --port=8000
+```
 
-- `cd ../frontend`
-- `npm install`
-- `npm run serve`
+- A aplicação Backend será executada na porta 8000.
 
-A aplicação Front-end será executada por padrão na porta 8080. Acesse:
+```
+cd ../frontend
+```
+```
+npm install
+```
+```
+npm run serve
+```
+
+- A aplicação Front-end será executada por padrão na porta 8080. Acesse em seu navegador:
 
 ```
 http://localhost:8080/
