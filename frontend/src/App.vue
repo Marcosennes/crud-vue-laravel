@@ -9,7 +9,7 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item active">
-            <router-link to="/estado/listar" class="nav-item nav-link">Estados</router-link>
+            <router-link to="/" class="nav-item nav-link">Estados</router-link>
           </li>
           <li class="nav-item">
             <router-link to="/cidade/listar" class="nav-item nav-link">Cidades</router-link>
