@@ -18,7 +18,7 @@
         <b-modal hide-footer ref="alterar" title="Alterar Cidade">
             <div v-if="id_cidade_a_ser_alterada">
                 <Alterar @confirm="updateConfirm" @cidadeAlterada="updateCidadeAlterada"
-                    @closeModalEdit="closeModalEdit" :id_estado="id_cidade_a_ser_alterada"></Alterar>
+                    @closeModalEdit="closeModalEdit" :id_cidade="id_cidade_a_ser_alterada"></Alterar>
             </div>
         </b-modal>
         <b-modal hide-footer ref="detalhar" title="Detalhes Cidade">
@@ -162,5 +162,12 @@ export default {
 table button {
     margin: 5px;
     color: white !important;
+}
+#input-3{
+  width: 100% !important;
+  border-radius: 0.25rem;
+  border-color: rgb(206, 212, 218);
+  height: 35px;
+  
 }
 </style>
