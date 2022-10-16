@@ -41,7 +41,8 @@
                 </b-button>
             </div>
         </div>
-        <b-table id="cidades_table" responsive :items="cidades" :busy="isBusy" :fields="fields" class="mt-1" outlined>
+        <b-table id="cidades_table" striped responsive :per-page="perPage" :current-page="currentPage" label-sort-asc="" label-sort-desc="" label-sort-clear=""
+            :items="cidades" :busy="isBusy" :fields="fields" class="mt-1" outlined>
             <template #cell(created_at)="data">
                 {{ new Date(data.item.created_at).toLocaleString('pt-br', { timeZone: 'America/Sao_Paulo'}) }}
             </template>
@@ -60,6 +61,8 @@
                 </b-button>
             </template>
         </b-table>
+        <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" aria-controls="cidades_table">
+        </b-pagination>
     </div>
 
 </template>
@@ -92,10 +95,17 @@ export default {
             id_detalhar_cidade: null,
             id_cidade_a_ser_alterada: null,
             filteredCidade: null,
+            perPage: 5,
+            currentPage: 1,
         };
     },
     mounted() {
         this.getCidades();
+    },
+    computed: {
+        rows() {
+            return this.cidades.length;
+        },
     },
     watch: {
         filteredCidade: function () {
