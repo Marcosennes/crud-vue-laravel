@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\EstadoRequest;
+use App\Http\Requests\EstadoCreateRequest;
+use App\Http\Requests\EstadoUpdateRequest;
 use App\Models\Estado;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 
 class EstadoController extends Controller
 {
@@ -16,7 +15,7 @@ class EstadoController extends Controller
         return response()->json(['estados' => $estados]);
     }
 
-    public function inserir(EstadoRequest $request){
+    public function inserir(EstadoCreateRequest $request){
 
         $estado = Estado::create($request->all());
 
@@ -27,7 +26,7 @@ class EstadoController extends Controller
         ]);
     }
 
-    public function alterar(EstadoRequest $request){
+    public function alterar(EstadoUpdateRequest $request){
         $estado = Estado::find($request->id);
         $estado->nome       = $request->get('nome');
         $estado->abreviacao = $request->get('abreviacao');
@@ -61,6 +60,5 @@ class EstadoController extends Controller
                 'message'   => 'O Estado ' . $estado->nome . ' não pode ser excluído.'
             ]);
         }
-
     }
 }
