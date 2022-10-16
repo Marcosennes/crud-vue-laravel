@@ -23,7 +23,7 @@
         </b-modal>
         <b-modal hide-footer ref="detalhar" title="Detalhes Estado">
             <div v-if="id_detalhar_estado">
-                <Detalhar :id="id_detalhar_estado" />
+                <Detalhar :id_estado="id_detalhar_estado" />
             </div>
         </b-modal>
         <div>

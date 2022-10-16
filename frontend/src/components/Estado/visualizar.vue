@@ -14,7 +14,7 @@ import axios from 'axios'
 
 export default {
     name: 'visualizarEstado',
-    props: ['id'],
+    props: ['id_estado'],
     data: function () {
         return {
             nome: null,
@@ -27,13 +27,13 @@ export default {
         this.getEstado();
     },
     watch: {
-        id: function () {
+        id_estado: function () {
             this.getEstado();
         }
     },
     methods: {
         async getEstado() {
-            const response = await axios.get("http://localhost:8000/api/estado/detalhar/" + this.id);
+            const response = await axios.get("http://localhost:8000/api/estado/detalhar/" + this.id_estado);
             if (response.status == 200) {
                 this.nome = response.data.estado.nome;
                 this.abreviacao = response.data.estado.abreviacao;

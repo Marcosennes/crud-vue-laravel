@@ -14,7 +14,7 @@ import axios from 'axios'
 
 export default {
     name: 'visualizarCidade',
-    props: ['id'],
+    props: ['id_cidade'],
     data: function () {
         return {
             nome: null,
@@ -27,13 +27,13 @@ export default {
         this.getCidade();
     },
     watch: {
-        id: function () {
+        id_cidade: function () {
             this.getCidade();
         }
     },
     methods: {
         async getCidade() {
-            const response = await axios.get("http://localhost:8000/api/cidade/detalhar/" + this.id);
+            const response = await axios.get("http://localhost:8000/api/cidade/detalhar/" + this.id_cidade);
             if (response.status == 200) {
                 this.nome       = response.data.cidade.nome;
                 this.estadoNome   = response.data.cidade.estadoNome;
