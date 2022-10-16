@@ -3,15 +3,13 @@
 ## Imagens do Projeto
 
 ### Página Inicial (Listagem de Estados)
-
 <div align="center">
-    <img src="https://user-images.githubusercontent.com/43481166/196048437-5263ee04-2d6a-44fb-bbc5-0f1d8bb22215.png" alt="Listagem de Estados" width="850px;">
+    <img src="https://user-images.githubusercontent.com/43481166/196059211-b54ca9d1-ade2-40db-8744-1626ba418868.png" alt="Listagem de Estados" width="850px;">
 </div>
 
 ### Listagem de Cidades
-
 <div align="center">
-    <img src="https://user-images.githubusercontent.com/43481166/196048646-7b12d43e-e91a-4727-b6f6-2ce3861d1c17.png" alt="Listagem de Cidades" width="850px;">
+    <img src="https://user-images.githubusercontent.com/43481166/196059240-a98dd726-5d91-40c0-88d7-d52df7e6214b.png" alt="Listagem de Cidades" width="850px;">
 </div>
 
 ## Sobre a resolução do desafio
