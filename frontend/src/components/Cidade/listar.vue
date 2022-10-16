@@ -26,33 +26,40 @@
                 <Detalhar :id_cidade="id_detalhar_cidade" />
             </div>
         </b-modal>
-        <div>
-            <div id="inserir-class" class="row d-flex flex-column mt-3">
+        <div id="filter-insert" class="row mt-3">
+            <div class="col-2">
+                <p>Filtro: </p>
+            </div>
+            <div class="col-8">
+                    <b-form-input id="input-1" v-model="filteredCidade" type="text" placeholder="Nome da Cidade"
+                        required>
+                    </b-form-input>
+            </div>
+            <div class="col-2">
                 <b-button id="nova-cidade-button" class="btn btn-primary" @click="inserir()">
                     <b-icon icon="plus" scale="1"></b-icon> Nova Cidade
                 </b-button>
             </div>
-            <b-table id="cidades_table" responsive :items="cidades" :busy="isBusy" :fields="fields" class="mt-3"
-                outlined>
-                <template #cell(created_at)="data">
-                    {{ new Date(data.item.created_at).toLocaleString('pt-br', { timeZone: 'America/Sao_Paulo'}) }}
-                </template>
-                <template #cell(updated_at)="data">
-                    {{ new Date(data.item.updated_at).toLocaleString('pt-br', { timeZone: 'America/Sao_Paulo'}) }}
-                </template>
-                <template #cell(acoes)="data">
-                    <b-button size="sm" variant="info" @click="detalhar(data.item.id)">
-                        <b-icon icon="eye-fill" scale="1"></b-icon>
-                    </b-button>
-                    <b-button size="sm" variant="warning" @click="alterar(data.item.id)">
-                        <b-icon icon="pencil-fill" scale="1"></b-icon>
-                    </b-button>
-                    <b-button size="sm" variant="danger" @click="excluir(cidades.indexOf(data.item), data.item.id)">
-                        <b-icon icon="trash-fill" scale="1"></b-icon>
-                    </b-button>
-                </template>
-            </b-table>
         </div>
+        <b-table id="cidades_table" responsive :items="cidades" :busy="isBusy" :fields="fields" class="mt-1" outlined>
+            <template #cell(created_at)="data">
+                {{ new Date(data.item.created_at).toLocaleString('pt-br', { timeZone: 'America/Sao_Paulo'}) }}
+            </template>
+            <template #cell(updated_at)="data">
+                {{ new Date(data.item.updated_at).toLocaleString('pt-br', { timeZone: 'America/Sao_Paulo'}) }}
+            </template>
+            <template #cell(acoes)="data">
+                <b-button size="sm" variant="info" @click="detalhar(data.item.id)">
+                    <b-icon icon="eye-fill" scale="1"></b-icon>
+                </b-button>
+                <b-button size="sm" variant="warning" @click="alterar(data.item.id)">
+                    <b-icon icon="pencil-fill" scale="1"></b-icon>
+                </b-button>
+                <b-button size="sm" variant="danger" @click="excluir(cidades.indexOf(data.item), data.item.id)">
+                    <b-icon icon="trash-fill" scale="1"></b-icon>
+                </b-button>
+            </template>
+        </b-table>
     </div>
 
 </template>
@@ -83,11 +90,29 @@ export default {
                 message: null,
             },
             id_detalhar_cidade: null,
-            id_cidade_a_ser_alterada: null
+            id_cidade_a_ser_alterada: null,
+            filteredCidade: null,
         };
     },
     mounted() {
         this.getCidades();
+    },
+    watch: {
+        filteredCidade: function () {
+            if (this.filteredCidade != null && this.filteredCidade != "") {
+                axios.get("http://localhost:8000/api/cidade/filtrar/" + this.filteredCidade)
+                    .then(response => {
+                        if (response.status == 200) {
+                            this.cidades = response.data.cidades;
+                        }
+                        else {
+                            console.log("Erro ao buscar dados");
+                        }
+                    });
+            } else {
+                this.getCidades();
+            }
+        }
     },
     methods: {
         toggleBusy() {
@@ -116,7 +141,7 @@ export default {
                         if (response.status == 200) {
                             this.confirm.success = response.data.success;
                             this.confirm.message = response.data.message;
-                            if(this.confirm.success == true){
+                            if (this.confirm.success == true) {
                                 this.cidades.splice(index, 1);
                             }
                         }
@@ -156,20 +181,21 @@ export default {
     width: 150px;
 }
 
-#inserir-class {
-    align-items: flex-end;
-    margin-right: 1px;
+#filter-insert p{
+    font-size: 1.3rem;
+    margin: 0;
 }
 
 table button {
     margin: 5px;
     color: white !important;
 }
-#input-3{
-  width: 100% !important;
-  border-radius: 0.25rem;
-  border-color: rgb(206, 212, 218);
-  height: 35px;
-  
+
+#input-3 {
+    width: 100% !important;
+    border-radius: 0.25rem;
+    border-color: rgb(206, 212, 218);
+    height: 35px;
+
 }
 </style>

@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Route::middleware('api')->group(function () {
+Route::middleware('api')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
     Route::get('/about', [HomeController::class, 'about']);
@@ -40,5 +40,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::get('/cidade/detalhar/{id}', 'detalhar')->name('cidade.detalhar');
         Route::post('/cidade/alterar', 'alterar')->name('cidade.alterar');
         Route::delete('/cidade/excluir/{id}', 'excluir')->name('cidade.excluir');
+        Route::get('/cidade/filtrar/{filter}', 'filtrar')->name('cidade.filtrar');
     });
-// });
+});

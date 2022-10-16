@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Requests\CidadeCreateRequest;
 use App\Http\Requests\CidadeUpdateRequest;
 use App\Models\Cidade;
@@ -53,6 +54,16 @@ class CidadeController extends Controller
             'message'   => 'Cidade  ' . $cidade->nome . '  alterada com sucesso.',
             'cidade'    => $cidade->getAttributes()
         ]);
+    }
+
+    public function filtrar($filter){
+        $cidades = Cidade::where('nome', 'like', '%' . $filter . '%')->get();
+        
+        foreach ($cidades as $cidade) {
+            $cidade->estadoNome = Estado::find($cidade->estadoId)->nome;
+        }
+
+        return response()->json(['cidades' => $cidades]);
     }
 
     public function excluir($id)
