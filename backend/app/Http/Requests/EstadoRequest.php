@@ -33,6 +33,7 @@ class EstadoRequest extends FormRequest
     {
         return [
             'required'  => ':attribute é obrigatório.',
+            'max'       => ':attribute deve ter no máximo :max caracteres.',
             'size'       => ':attribute deve possuir exatamente :size caracteres.',
         ];
     }

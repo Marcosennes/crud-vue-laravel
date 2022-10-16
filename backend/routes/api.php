@@ -30,8 +30,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::get('/estado/listar', 'index')->name('estado.index');
         Route::post('/estado/inserir', 'inserir')->name('estado.inserir');
         Route::get('/estado/detalhar/{id}', 'detalhar')->name('estado.detalhar');
-        Route::get('/estado/alterar/{id}', 'alterarIndex')->name('estado.alterar.index');
-        Route::put('/estado/alterar', 'alterar')->name('estado.alterar');
+        Route::post('/estado/alterar', 'alterar')->name('estado.alterar');
         Route::delete('/estado/excluir/{id}', 'excluir')->name('estado.excluir');
     });
 
@@ -40,7 +39,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::get('/cidade/inserir', 'inserirIndex')->name('cidade.inserir.index');
         Route::post('/cidade/inserir', 'inserir')->name('cidade.inserir');
         Route::get('/cidade/alterar', 'alterarIndex')->name('cidade.alterar.index');
-        Route::put('/cidade/alterar', 'alterar')->name('cidade.alterar');
+        Route::post('/cidade/alterar', 'alterar')->name('cidade.alterar');
         Route::post('/cidade/excluir', 'excluir')->name('cidade.excluir');
     });
 // });

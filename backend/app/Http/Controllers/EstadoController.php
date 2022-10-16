@@ -31,8 +31,17 @@ class EstadoController extends Controller
         ]);
     }
 
-    public function alterar($id, Request $request){
-
+    public function alterar(EstadoRequest $request){
+        $estado = Estado::find($request->id);
+        $estado->nome       = $request->get('nome');
+        $estado->abreviacao = $request->get('abreviacao');
+        $estado->save();
+        
+        return response()->json([
+            'success'   => true,
+            'message'   => 'Estado  ' . $estado->nome . '  alterado com sucesso.',
+            'estado'    => $estado->getAttributes()
+        ]);       
     }
 
     public function detalhar($id){

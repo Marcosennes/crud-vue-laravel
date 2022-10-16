@@ -15,6 +15,12 @@
         <b-modal hide-footer ref="inserir" title="Inserir Estado">
             <Inserir @confirm="updateConfirm" @estadoInserido="updateEstados" @closeModal="closeModalInsert"></Inserir>
         </b-modal>
+        <b-modal hide-footer ref="alterar" title="Alterar Estado">
+            <div v-if="id_estado_a_ser_alterado">
+                <Alterar @confirm="updateConfirm" @estadoAlterado="updateEstadoAlterado"
+                    @closeModalEdit="closeModalEdit" :id_estado="id_estado_a_ser_alterado"></Alterar>
+            </div>
+        </b-modal>
         <b-modal hide-footer ref="detalhar" title="Detalhes Estado">
             <div v-if="id_detalhar_estado">
                 <Detalhar :id="id_detalhar_estado" />
@@ -22,22 +28,25 @@
         </b-modal>
         <div>
             <div id="inserir-class" class="row d-flex flex-column">
-                <b-button id="novo-estado-button" class="btn btn-primary" @click="inserir()">Novo Estado</b-button>
+                <b-button id="novo-estado-button" class="btn btn-primary" @click="inserir()">
+                    <b-icon icon="plus" scale="1"></b-icon> Novo Estado
+                </b-button>
             </div>
             <b-table id="estados_table" responsive :items="estados" :busy="isBusy" :fields="fields" class="mt-3"
                 outlined>
-                <template #cell(acoes)="data">
-                    <b-button size="sm" variant="info" @click="detalhar(data.item.id)">Visualizar</b-button>
-                    <!-- <b-button size="sm" variant="warning" @click="alterar()">Alterar</b-button> -->
-                    <b-button size="sm" variant="danger" @click="excluir(estados.indexOf(data.item), data.item.id)">
-                        Excluir
-                    </b-button>
+                <template #cell(created_at)="data">
+                    {{ new Date(data.item.created_at).toUTCString() }}
                 </template>
-                <template #table-busy>
-                    <div class="text-center text-danger my-2">
-                        <b-spinner class="align-middle"></b-spinner>
-                        <strong>Loading...</strong>
-                    </div>
+                <template #cell(acoes)="data">
+                    <b-button size="sm" variant="info" @click="detalhar(data.item.id)">
+                        <b-icon icon="eye-fill" scale="1"></b-icon>
+                    </b-button>
+                    <b-button size="sm" variant="warning" @click="alterar(data.item.id)">
+                        <b-icon icon="pencil-fill" scale="1"></b-icon>
+                    </b-button>
+                    <b-button size="sm" variant="danger" @click="excluir(estados.indexOf(data.item), data.item.id)">
+                        <b-icon icon="trash-fill" scale="1"></b-icon>
+                    </b-button>
                 </template>
             </b-table>
         </div>
@@ -48,10 +57,11 @@
 import axios from 'axios'
 import Detalhar from './visualizar.vue';
 import Inserir from './inserir.vue';
+import Alterar from './alterar.vue';
 
 export default {
     name: "listarEstado",
-    components: { Detalhar, Inserir },
+    components: { Detalhar, Inserir, Alterar },
     data() {
         return {
             isBusy: false,
@@ -69,6 +79,7 @@ export default {
                 message: null,
             },
             id_detalhar_estado: null,
+            id_estado_a_ser_alterado: null
         };
     },
     mounted() {
@@ -89,6 +100,10 @@ export default {
         },
         inserir() {
             this.$refs.inserir.show();
+        },
+        alterar(id) {
+            this.id_estado_a_ser_alterado = id;
+            this.$refs.alterar.show();
         },
         excluir(index, id) {
             if (confirm("Deseja realmente excluir este registro?")) {
@@ -112,8 +127,15 @@ export default {
         updateEstados(estado) {
             this.estados.push(estado);
         },
+        updateEstadoAlterado(estado) {
+            let index = this.estados.findIndex(item => item.id == estado.id)
+            this.$set(this.estados, index, estado);
+        },
         closeModalInsert() {
             this.$refs.inserir.hide();
+        },
+        closeModalEdit() {
+            this.$refs.alterar.hide();
         },
     }
 };
@@ -123,11 +145,18 @@ export default {
 #estados_table {
     width: 100%;
 }
+
 #novo-estado-button {
     width: 150px;
 }
-#inserir-class{
+
+#inserir-class {
     align-items: flex-end;
     margin-right: 1px;
+}
+
+table button {
+    margin: 5px;
+    color: white !important;
 }
 </style>
