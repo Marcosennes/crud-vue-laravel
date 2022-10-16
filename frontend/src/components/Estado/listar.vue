@@ -40,7 +40,8 @@
                 </b-button>
             </div>
         </div>
-        <b-table id="estados_table" responsive :items="estados" :busy="isBusy" :fields="fields" class="mt-3" outlined>
+        <b-table id="estados_table" striped responsive :per-page="perPage" :current-page="currentPage" label-sort-asc="" label-sort-desc="" label-sort-clear=""
+            :items="estados" :busy="isBusy" :fields="fields" class="mt-3" outlined>
             <template #cell(created_at)="data">
                 {{ new Date(data.item.created_at).toLocaleString('pt-br', { timeZone: 'America/Sao_Paulo'}) }}
             </template>
@@ -59,6 +60,8 @@
                 </b-button>
             </template>
         </b-table>
+        <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" aria-controls="estados_table">
+        </b-pagination>
     </div>
 </template>
 
@@ -90,84 +93,91 @@ export default {
             id_detalhar_estado: null,
             id_estado_a_ser_alterado: null,
             filteredEstado: null,
+            perPage: 3,
+            currentPage: 1,
         };
     },
     mounted() {
         this.getEstados();
     },
-    watch: {
-        filteredEstado: function () {
-            if (this.filteredEstado != null && this.filteredEstado != "") {
-                axios.get("http://localhost:8000/api/estado/filtrar/" + this.filteredEstado)
-                    .then(response => {
-                        if (response.status == 200) {
-                            this.estados = response.data.estados;
-                        }
-                        else {
-                            console.log("Erro ao buscar dados");
-                        }
-                    });
-            } else {
-                this.getEstados();
-            }
-        }
+    computed: {
+        rows() {
+            return this.estados.length
+        },
     },
-    methods: {
-        toggleBusy() {
-            this.isBusy = !this.isBusy;
-        },
-        async getEstados() {
-            const response = await axios.get("http://localhost:8000/api/estado/listar");
-            if (response.status == 200) {
-                this.estados = response.data.estados;
-            }
-            else {
-                console.log("Erro ao buscar dados");
-            }
-        },
-        inserir() {
-            this.$refs.inserir.show();
-        },
-        alterar(id) {
-            this.id_estado_a_ser_alterado = id;
-            this.$refs.alterar.show();
-        },
-        excluir(index, id) {
-            if (confirm("Deseja realmente excluir este registro?")) {
-                axios.delete("http://localhost:8000/api/estado/excluir/" + id)
-                    .then(response => {
-                        if (response.status == 200) {
-                            this.confirm.success = response.data.success;
-                            this.confirm.message = response.data.message;
-                            if (response.data.success == true) {
-                                this.estados.splice(index, 1);
+    watch: {
+            filteredEstado: function () {
+                if (this.filteredEstado != null && this.filteredEstado != "") {
+                    axios.get("http://localhost:8000/api/estado/filtrar/" + this.filteredEstado)
+                        .then(response => {
+                            if (response.status == 200) {
+                                this.estados = response.data.estados;
                             }
-                        }
-                    });
+                            else {
+                                console.log("Erro ao buscar dados");
+                            }
+                        });
+                } else {
+                    this.getEstados();
+                }
             }
         },
-        detalhar(id) {
-            this.$refs.detalhar.show();
-            this.id_detalhar_estado = id;
-        },
-        updateConfirm(confirm) {
-            this.confirm = confirm;
-        },
-        updateEstados(estado) {
-            this.estados.push(estado);
-        },
-        updateEstadoAlterado(estado) {
-            let index = this.estados.findIndex(item => item.id == estado.id)
-            this.$set(this.estados, index, estado);
-        },
-        closeModalInsert() {
-            this.$refs.inserir.hide();
-        },
-        closeModalEdit() {
-            this.$refs.alterar.hide();
-        },
-    }
-};
+        methods: {
+            toggleBusy() {
+                this.isBusy = !this.isBusy;
+            },
+            async getEstados() {
+                const response = await axios.get("http://localhost:8000/api/estado/listar");
+                if (response.status == 200) {
+                    this.estados = response.data.estados;
+                }
+                else {
+                    console.log("Erro ao buscar dados");
+                }
+            },
+            inserir() {
+                this.$refs.inserir.show();
+            },
+            alterar(id) {
+                this.id_estado_a_ser_alterado = id;
+                this.$refs.alterar.show();
+            },
+            excluir(index, id) {
+                if (confirm("Deseja realmente excluir este registro?")) {
+                    axios.delete("http://localhost:8000/api/estado/excluir/" + id)
+                        .then(response => {
+                            if (response.status == 200) {
+                                this.confirm.success = response.data.success;
+                                this.confirm.message = response.data.message;
+                                if (response.data.success == true) {
+                                    this.estados.splice(index, 1);
+                                }
+                            }
+                        });
+                }
+            },
+            detalhar(id) {
+                this.$refs.detalhar.show();
+                this.id_detalhar_estado = id;
+            },
+            updateConfirm(confirm) {
+                this.confirm = confirm;
+            },
+            updateEstados(estado) {
+                this.estados.push(estado);
+            },
+            updateEstadoAlterado(estado) {
+                let index = this.estados.findIndex(item => item.id == estado.id)
+                this.$set(this.estados, index, estado);
+            },
+            closeModalInsert() {
+                this.$refs.inserir.hide();
+            },
+            closeModalEdit() {
+                this.$refs.alterar.hide();
+            },
+        }
+    };
 </script>
 
 <style>
@@ -179,7 +189,7 @@ export default {
     width: 150px;
 }
 
-#filter-insert p{
+#filter-insert p {
     font-size: 1.3rem;
     margin: 0;
 }
