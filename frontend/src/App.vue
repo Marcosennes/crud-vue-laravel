@@ -12,13 +12,11 @@
             <router-link to="/estado/listar" class="nav-item nav-link">Estados</router-link>
           </li>
           <li class="nav-item">
-            <!-- <a class="nav-link" href="#">Cidades</a> -->
-            <router-link to="/about" class="nav-item nav-link">Sobre</router-link>
+            <router-link to="/cidade/listar" class="nav-item nav-link">Cidades</router-link>
           </li>
         </ul>
       </div>
     </nav>
-    <!-- <router-link to="/estado/inserir" class="nav-item nav-link">Inserir Estado</router-link> -->
     <div class="container">
       <router-view></router-view>
     </div>

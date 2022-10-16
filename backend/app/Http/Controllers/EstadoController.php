@@ -9,10 +9,6 @@ use Illuminate\Support\Facades\Redirect;
 
 class EstadoController extends Controller
 {
-    public function __construct()
-    {
-        
-    }
 
     public function index(){
         $estados = Estado::all();

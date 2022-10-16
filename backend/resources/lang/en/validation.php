@@ -161,6 +161,7 @@ return [
     'attributes' => [
         'abreviacao' => 'Abreviação',
         'nome'     => 'Nome',
+        'estadoId' => 'identificador do estado',
     ],
 
 ];

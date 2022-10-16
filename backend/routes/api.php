@@ -36,10 +36,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
     Route::controller(CidadeController::class)->group(function () {
         Route::get('/cidade/listar', 'index')->name('cidade.index');
-        Route::get('/cidade/inserir', 'inserirIndex')->name('cidade.inserir.index');
         Route::post('/cidade/inserir', 'inserir')->name('cidade.inserir');
-        Route::get('/cidade/alterar', 'alterarIndex')->name('cidade.alterar.index');
+        Route::get('/cidade/detalhar/{id}', 'detalhar')->name('cidade.detalhar');
         Route::post('/cidade/alterar', 'alterar')->name('cidade.alterar');
-        Route::post('/cidade/excluir', 'excluir')->name('cidade.excluir');
+        Route::delete('/cidade/excluir/{id}', 'excluir')->name('cidade.excluir');
     });
 // });
