@@ -1,5 +1,19 @@
 # CRUD Laravel + Vue.js
 
+## Imagens do Projeto
+
+### Página Inicial (Listagem de Estados)
+
+<div align="center">
+    <img src="https://user-images.githubusercontent.com/43481166/196048437-5263ee04-2d6a-44fb-bbc5-0f1d8bb22215.png" alt="Listagem de Estados" width="850px;">
+</div>
+
+### Listagem de Cidades
+
+<div align="center">
+    <img src="https://user-images.githubusercontent.com/43481166/196048646-7b12d43e-e91a-4727-b6f6-2ce3861d1c17.png" alt="Listagem de Cidades" width="850px;">
+</div>
+
 ## Sobre a resolução do desafio
 
 Este projeto foi desenvolvido como solução para o desafio proposto de criar um CRUD para as entidades de estado e cidade utilizando o Laravel e o Vue.js. Um outro projeto utilizando as mesmas tecnologias mas também com a utilização do Inertia.js foi iniciado mas foi solicitado que não utizasse esta tecnologia no desafio. A partir disto iniciei este repositório sem o uso de Inertia.js.
