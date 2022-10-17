@@ -46,6 +46,12 @@ php artisan key:generate
 php artisan migrate
 ```
 ```
+php artisan db:seed --class=EstadosSeeder
+```
+```
+php artisan db:seed --class=CidadesSeeder
+```
+```
 php artisan serve --port=8000
 ```
 
