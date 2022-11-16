@@ -7,6 +7,7 @@ use App\Http\Requests\CidadeCreateRequest;
 use App\Http\Requests\CidadeUpdateRequest;
 use App\Models\Cidade;
 use App\Models\Estado;
+use Illuminate\Support\Facades\Cache;
 
 class CidadeController extends Controller
 {
@@ -82,5 +83,24 @@ class CidadeController extends Controller
                 'message'   => 'A cidade ' . $cidade->nome . ' não pode ser excluída.'
             ]);
         }
+    }
+
+    public function cidadesPag($current_page){
+
+        $expiracao = 60; //60 minutos
+
+        $key = 'cidade_' . $current_page;
+
+        // dd($key, Cache::get($key));
+
+        return Cache::remember($key, $expiracao, function() use ($current_page){
+            $cidades = Cidade::select('id', 'nome', 'estadoId')->skip($current_page * 10)->take(10)->get();
+            
+            foreach ($cidades as $cidade) { 
+                $cidade->estadoNome = Estado::find($cidade->estadoId)->nome;   
+            }
+            
+            return response()->json(['cidades' => $cidades]);
+        });
     }
 }

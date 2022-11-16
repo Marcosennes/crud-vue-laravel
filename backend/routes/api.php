@@ -42,5 +42,6 @@ Route::middleware('api')->group(function () {
         Route::post('/cidade/alterar', 'alterar')->name('cidade.alterar');
         Route::delete('/cidade/excluir/{id}', 'excluir')->name('cidade.excluir');
         Route::get('/cidade/filtrar/{filter}', 'filtrar')->name('cidade.filtrar');
+        Route::get('/cidade/cidadesPag/{current_page}', 'cidadesPag')->name('cidade.paginacao');
     });
 });

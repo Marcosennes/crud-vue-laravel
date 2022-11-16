@@ -16,6 +16,15 @@
           <li class="nav-item">
             <router-link to="/cidade/listar" class="nav-item nav-link">Cidades</router-link>
           </li>
+          <li class="nav-item">
+            <router-link to="/motion" class="nav-item nav-link">Motion</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/redis" class="nav-item nav-link">Redis</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/estudos" class="nav-item nav-link">Estudos</router-link>
+          </li>
         </ul>
       </div>
     </nav>
