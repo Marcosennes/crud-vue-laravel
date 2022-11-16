@@ -86,10 +86,7 @@ export default {
             }
         },
         cleanAlerts(){
-            this.alert.short_password = false
-            this.alert.passwords_dont_match = false
-            this.alert.null_password = false
-            this.alert.null_confirm_password = false
+            this.alert.short_password = this.alert.passwords_dont_match = this.alert.null_password = this.alert.null_confirm_password = false
         }
     }
 };
