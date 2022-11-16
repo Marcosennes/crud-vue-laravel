@@ -56,30 +56,40 @@ export default {
             }
         }
     },
-    computed: {
+    watch: {
+        'form.password': function() {
+            this.cleanAlerts()
+        },
+        'form.password_confirm': function() {
+            this.cleanAlerts()
+        }
+
     },
     methods: {
         redefinirSenha() {
-            if (this.form.password == null) {
+            if (this.form.password == null) {   // Senha é nula
                 this.alert.null_password = true
             } else {
-                this.alert.null_password = false
-                if (this.form.password.length < 8) {
-                    this.alert.short_password = true
-                } else {
-                    this.alert.short_password = false
-                    if (this.form.password_confirm == null) {
-                        this.alert.null_confirm_password = true
-                    } else {
-                        this.alert.null_confirm_password = false
-                        if (this.form.password != this.form.confirmPassword) {
-                            this.alert.passwords_dont_match = true
-                        } else {
-                            this.alert.passwords_dont_match = false
-                        }
-                    }
+                if (this.form.password.length < 8) {    // Senha é menor que 8 caracteres
+                    this.alert.short_password = true  
+                    return false
                 }
             }
+            if (this.form.password_confirm == null) {   // Confirmação de senha é nula
+                this.alert.null_confirm_password = true
+            } else {
+                if (this.form.password !== this.form.password_confirm) {  // Senha e confirmação de senha conferem
+                    this.alert.passwords_dont_match = true
+                } else{
+                    alert("Formulário enviado com sucesso!")
+                }
+            }
+        },
+        cleanAlerts(){
+            this.alert.short_password = false
+            this.alert.passwords_dont_match = false
+            this.alert.null_password = false
+            this.alert.null_confirm_password = false
         }
     }
 };
