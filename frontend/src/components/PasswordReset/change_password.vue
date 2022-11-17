@@ -5,7 +5,7 @@
                 <div class="offset-2 col-8">
                     <b-form @submit.prevent="envio">
                         <b-form-group id="" label="Senha:" label-for="password">
-                            <b-form-input id="password" v-model="form.password" type="text" placeholder="" required>
+                            <b-form-input id="password" v-model="form.password" type="password" placeholder="" required>
                             </b-form-input>
                         </b-form-group>
                         <div v-if="alert.short_password" class="mt-1">
@@ -15,7 +15,7 @@
                             <span class="error-text">Senha não pode ser vazio.</span>
                         </div>
                         <b-form-group id="" class="mt-2" label="Confirme a senha:" label-for="passwordConfirm">
-                            <b-form-input id="passwordConfirm" v-model="form.password_confirm" placeholder="" required>
+                            <b-form-input id="passwordConfirm" v-model="form.password_confirm" type="password" placeholder="" required>
                             </b-form-input>
                         </b-form-group>
                         <div v-if="alert.null_confirm_password" class="mt-1">
