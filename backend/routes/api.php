@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CidadeController;
 use App\Http\Controllers\EstadoController;
 use App\Http\Controllers\HomeController;
@@ -43,5 +44,14 @@ Route::middleware('api')->group(function () {
         Route::delete('/cidade/excluir/{id}', 'excluir')->name('cidade.excluir');
         Route::get('/cidade/filtrar/{filter}', 'filtrar')->name('cidade.filtrar');
         Route::get('/cidade/cidadesPag/{current_page}', 'cidadesPag')->name('cidade.paginacao');
+    });
+
+    Route::controller(AuthController::class)
+        ->prefix('auth')
+        ->group(function () {
+            Route::post('/login', 'login')->name('auth.login');
+            Route::post('/logout', 'logout')->name('auth.logout');
+            Route::post('/refresh', 'refresh')->name('auth.refresh');
+            Route::post('/me', 'me')->name('auth.me');
     });
 });

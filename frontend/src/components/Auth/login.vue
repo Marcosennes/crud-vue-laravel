@@ -1,37 +1,25 @@
 <template>
     <div id="estudosContainer" class="container">
         <div class="row">
-            <div id="NomeResult" class="offset-2 col-8">
-                <div class="offset-2 col-8">
-                    <b-form @submit.prevent="envio">
+            <b-form @submit.prevent="logar">
+                <div id="NomeResult" class="offset-2 col-8">
+                    <div class="offset-2 col-8">
+                        <b-form-group id="" class="mt-2" label="Email:" label-for="email">
+                            <b-form-input id="email" v-model="form.email" type="email" placeholder="" required>
+                            </b-form-input>
+                        </b-form-group>
                         <b-form-group id="" label="Senha:" label-for="password">
                             <b-form-input id="password" v-model="form.password" type="password" placeholder="" required>
                             </b-form-input>
                         </b-form-group>
-                        <div v-if="alert.short_password" class="mt-1">
-                            <span class="error-text">Senha deve possuir pelo menos 8 caracteres.</span>
+                    </div>
+                    <div class="offset-2 col-8">
+                        <div id="enviar-button-div" class="mt-3 d-flex justify-content-end">
+                            <b-button id="enviar-button" variant="primary" type="submit">Enviar</b-button>
                         </div>
-                        <div v-if="alert.null_password" class="mt-1">
-                            <span class="error-text">Senha não pode ser vazio.</span>
-                        </div>
-                        <b-form-group id="" class="mt-2" label="Confirme a senha:" label-for="passwordConfirm">
-                            <b-form-input id="passwordConfirm" v-model="form.password_confirm" type="password" placeholder="" required>
-                            </b-form-input>
-                        </b-form-group>
-                        <div v-if="alert.null_confirm_password" class="mt-1">
-                            <span class="error-text">Confirmação de Senha não pode ser vazio.</span>
-                        </div>
-                        <div v-if="alert.passwords_dont_match" class="mt-1">
-                            <span class="error-text">Senha e confirmação de senha não conferem.</span>
-                        </div>
-                    </b-form>
-                </div>
-                <div class="offset-2 col-8">
-                    <div id="enviar-button-div" class="mt-3 d-flex justify-content-end">
-                        <b-button id="enviar-button" variant="primary" @click="redefinirSenha()">Enviar</b-button>
                     </div>
                 </div>
-            </div>
+            </b-form>
         </div>
     </div>
 </template>
@@ -41,12 +29,12 @@
 
 
 export default {
-    name: 'estudosComp',
+    name: 'loginComp',
     data: () => {
         return {
             form: {
+                email: null,
                 password: null,
-                password_confirm: null,
             },
             alert: {
                 short_password: false,
@@ -57,21 +45,35 @@ export default {
         }
     },
     watch: {
-        'form.password': function() {
+        'form.password': function () {
             this.cleanAlerts()
         },
-        'form.password_confirm': function() {
+        'form.password_confirm': function () {
             this.cleanAlerts()
         }
 
     },
     methods: {
+        logar() {
+            alert("logar")
+            fetch('http://127.0.0.1:8000/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(this.form)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                })
+        },
         redefinirSenha() {
             if (this.form.password == null) {   // Senha é nula
                 this.alert.null_password = true
             } else {
                 if (this.form.password.length < 8) {    // Senha é menor que 8 caracteres
-                    this.alert.short_password = true  
+                    this.alert.short_password = true
                     return false
                 }
             }
@@ -80,12 +82,12 @@ export default {
             } else {
                 if (this.form.password !== this.form.password_confirm) {  // Senha e confirmação de senha conferem
                     this.alert.passwords_dont_match = true
-                } else{
+                } else {
                     alert("Formulário enviado com sucesso!")
                 }
             }
         },
-        cleanAlerts(){
+        cleanAlerts() {
             this.alert.short_password = this.alert.passwords_dont_match = this.alert.null_password = this.alert.null_confirm_password = false
         }
     }

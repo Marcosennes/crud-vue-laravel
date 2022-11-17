@@ -10,7 +10,9 @@ import CidadeComponent from './components/Cidade/listar.vue';
 import EstudosComponent from './components/estudos.vue';
 import MotionComponent from './components/motion.vue';
 import RedisComponent from './components/redis.vue';
-import PasswordResetComponent from './components/PasswordReset/change_password.vue';
+import PasswordResetComponent from './components/Auth/change_password.vue';
+import LoginComponent from './components/Auth/login.vue';
+
 
 Vue.config.productionTip = false
 
@@ -27,6 +29,7 @@ const routes = [
     { path: '/estudos',         component:  EstudosComponent },
     { path: '/motion',          component:  MotionComponent },
     { path: '/redis',           component:  RedisComponent },
+    { path: '/login',           component:  LoginComponent },
     { path: '/redefinir_senha', component:  PasswordResetComponent }
 ]
 

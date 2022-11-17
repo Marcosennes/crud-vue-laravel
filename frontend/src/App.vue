@@ -26,6 +26,9 @@
             <router-link to="/estudos" class="nav-item nav-link">Estudos</router-link>
           </li>
           <li class="nav-item">
+            <router-link to="/login" class="nav-item nav-link">Login</router-link>
+          </li>
+          <li class="nav-item">
             <router-link to="/redefinir_senha" class="nav-item nav-link">Redefinir Senha</router-link>
           </li>
         </ul>
