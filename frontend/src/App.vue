@@ -29,6 +29,9 @@
             <router-link to="/login" class="nav-item nav-link">Login</router-link>
           </li>
           <li class="nav-item">
+            <router-link to="/logged" class="nav-item nav-link">Logado</router-link>
+          </li>
+          <li class="nav-item">
             <router-link to="/redefinir_senha" class="nav-item nav-link">Redefinir Senha</router-link>
           </li>
         </ul>

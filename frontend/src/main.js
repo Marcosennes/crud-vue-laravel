@@ -12,14 +12,17 @@ import MotionComponent from './components/motion.vue';
 import RedisComponent from './components/redis.vue';
 import PasswordResetComponent from './components/Auth/change_password.vue';
 import LoginComponent from './components/Auth/login.vue';
+import LoggedComponent from './components/Logged/User/home.vue';
+import PageNotFoundComponent from './components/Logged/404_error.vue';
 
+import Middleware from './services/middleware';
 
 Vue.config.productionTip = false
 
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 
-Vue.use(VueRouter);
+Vue.use(VueRouter); 
 
 Vue.config.productionTip = false
 
@@ -30,10 +33,12 @@ const routes = [
     { path: '/motion',          component:  MotionComponent },
     { path: '/redis',           component:  RedisComponent },
     { path: '/login',           component:  LoginComponent },
-    { path: '/redefinir_senha', component:  PasswordResetComponent }
+    { path: '/logged',          component:  LoggedComponent, beforeEnter: Middleware.auth },
+    { path: '/redefinir_senha', component:  PasswordResetComponent },
+    { path: '/page_not_found',  component:  PageNotFoundComponent }
 ]
 
-const router = new VueRouter({
+const router = new VueRouter({  
     routes
 })
 

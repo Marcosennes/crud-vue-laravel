@@ -26,7 +26,7 @@
 
 <script>
 
-
+import Cookie from 'js-cookie'
 
 export default {
     name: 'loginComp',
@@ -35,27 +35,14 @@ export default {
             form: {
                 email: null,
                 password: null,
-            },
-            alert: {
-                short_password: false,
-                passwords_dont_match: false,
-                null_password: false,
-                null_confirm_password: false,
             }
         }
     },
-    watch: {
-        'form.password': function () {
-            this.cleanAlerts()
-        },
-        'form.password_confirm': function () {
-            this.cleanAlerts()
-        }
-
-    },
+    // created(){
+    //     Cookie.remove('logged_token')
+    // },
     methods: {
         logar() {
-            alert("logar")
             fetch('http://127.0.0.1:8000/api/auth/login', {
                 method: 'POST',
                 headers: {
@@ -63,33 +50,18 @@ export default {
                 },
                 body: JSON.stringify(this.form)
             })
-                .then(response => response.json())
+                .then(response => {
+                    if (response.status == 200) {
+                        return response.json()
+                    } else{
+                        alert('Usuário ou senha inválidos!')
+                    }
+                })
                 .then(data => {
-                    console.log(data)
+                    Cookie.set('logged_token', data.access_token)
+                    this.$router.push('/logged')
                 })
         },
-        redefinirSenha() {
-            if (this.form.password == null) {   // Senha é nula
-                this.alert.null_password = true
-            } else {
-                if (this.form.password.length < 8) {    // Senha é menor que 8 caracteres
-                    this.alert.short_password = true
-                    return false
-                }
-            }
-            if (this.form.password_confirm == null) {   // Confirmação de senha é nula
-                this.alert.null_confirm_password = true
-            } else {
-                if (this.form.password !== this.form.password_confirm) {  // Senha e confirmação de senha conferem
-                    this.alert.passwords_dont_match = true
-                } else {
-                    alert("Formulário enviado com sucesso!")
-                }
-            }
-        },
-        cleanAlerts() {
-            this.alert.short_password = this.alert.passwords_dont_match = this.alert.null_password = this.alert.null_confirm_password = false
-        }
     }
 };
 </script>
