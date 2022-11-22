@@ -7,6 +7,7 @@ use App\Http\Controllers\EstadoController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -67,7 +68,4 @@ Route::middleware('api')->group(function () {
     // $router->post('password/email', 'ForgotPasswordController@sendResetLinkEmail');
     // $router->get('password/reset/{token}', 'ResetPasswordController@showResetForm')->name('admin.password.token');
     // $router->post('password/reset', 'ResetPasswordController@reset');
-    Route::get('/forgot-password', function () {
-        return view('auth.forgot-password');
-    })->middleware('guest')->name('password.request');
 });

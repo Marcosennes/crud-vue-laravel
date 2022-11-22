@@ -12,6 +12,7 @@
                             <b-form-input id="password" v-model="form.password" type="password" placeholder="" required>
                             </b-form-input>
                         </b-form-group>
+                        <a href="http://localhost:8000/forgot-password">Esqueceu sua senha?</a>
                     </div>
                     <div class="offset-2 col-8">
                         <div id="enviar-button-div" class="mt-3 d-flex justify-content-end">
