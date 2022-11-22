@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CidadeController;
 use App\Http\Controllers\EstadoController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,12 +48,26 @@ Route::middleware('api')->group(function () {
         Route::get('/cidade/cidadesPag/{current_page}', 'cidadesPag')->name('cidade.paginacao');
     });
 
-    Route::controller(AuthController::class)
-        ->prefix('auth')
-        ->group(function () {
-            Route::post('/login', 'login')->name('auth.login');
-            Route::post('/logout', 'logout')->name('auth.logout');
-            Route::post('/refresh', 'refresh')->name('auth.refresh');
-            Route::post('/me', 'me')->name('auth.me');
-    });
+    // Route::controller(AuthController::class)
+    //     ->prefix('auth')
+    //     ->group(function () {
+    //         Route::post('/login', 'login')->name('auth.login');
+    //         Route::post('/logout', 'logout')->name('auth.logout');
+    //         Route::post('/refresh', 'refresh')->name('auth.refresh');
+    //         Route::post('/me', 'me')->name('auth.me');
+    // });
+
+
+    // $router->get('password/reset', ForgotPasswordController::class, 'showLinkRequestForm')->name('admin.password.reset');
+    // Route::get('/', [HomeController::class, 'index'])->name('home');
+
+
+    // Password Reset Routes...
+    // $router->get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('admin.password.reset');
+    // $router->post('password/email', 'ForgotPasswordController@sendResetLinkEmail');
+    // $router->get('password/reset/{token}', 'ResetPasswordController@showResetForm')->name('admin.password.token');
+    // $router->post('password/reset', 'ResetPasswordController@reset');
+    Route::get('/forgot-password', function () {
+        return view('auth.forgot-password');
+    })->middleware('guest')->name('password.request');
 });
