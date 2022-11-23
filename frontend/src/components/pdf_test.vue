@@ -18,13 +18,17 @@
 
 
 
-        <button @click="generateReport">Gerar PDF</button>
+        <b-button class="mx-2" @click="generateReport" variant="primary">Gerar PDF</b-button>
+        <b-button class="mx-2" @click="exportData" variant="primary">Download file</b-button>
     </div>
 </template>
  
 <script>
 import VueHtml2pdf from 'vue-html2pdf'
 import axios from 'axios'
+import { excelParser } from "../excel-parser";
+// import { sampleData } from "./sample-data";
+
 
 export default {
     name: 'pdfComp',
@@ -68,9 +72,13 @@ export default {
                 console.log("Erro ao buscar dados");
             }
         },
+        exportData() {
+            excelParser().exportDataFromJSON(this.estados, null, null);
+        },
     },
 }
 </script>
 
 <style>
+
 </style>
