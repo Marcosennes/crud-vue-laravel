@@ -34,6 +34,9 @@
           <li class="nav-item">
             <router-link to="/redefinir_senha" class="nav-item nav-link">Redefinir Senha</router-link>
           </li>
+          <li class="nav-item">
+            <router-link to="/pdf" class="nav-item nav-link">PDF</router-link>
+          </li>
         </ul>
       </div>
     </nav>

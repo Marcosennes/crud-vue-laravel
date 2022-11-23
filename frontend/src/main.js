@@ -14,6 +14,7 @@ import PasswordResetComponent from './components/Auth/change_password.vue';
 import LoginComponent from './components/Auth/login.vue';
 import LoggedComponent from './components/Logged/User/home.vue';
 import PageNotFoundComponent from './components/Logged/404_error.vue';
+import PdfTest from './components/pdf_test.vue'
 
 import Middleware from './services/middleware';
 
@@ -35,8 +36,9 @@ const routes = [
     { path: '/login',           component:  LoginComponent },
     { path: '/logged',          component:  LoggedComponent, beforeEnter: Middleware.auth },
     { path: '/redefinir_senha', component:  PasswordResetComponent },
-    { path: '/page_not_found',  component:  PageNotFoundComponent }
-]
+    { path: '/page_not_found',  component:  PageNotFoundComponent },
+    { path: '/pdf',             component:  PdfTest }
+  ]
 
 const router = new VueRouter({  
     routes
