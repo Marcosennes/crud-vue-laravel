@@ -57,8 +57,10 @@ Route::post('/reset-password', function (Request $request) {
             event(new PasswordReset($user));
         }
     );
+
+    $url_user = "http://localhost:8080/";
  
     return $status === Password::PASSWORD_RESET
-                ? redirect()->route('login')->with('status', __($status))
+                ? redirect()->to($url_user)->with('status', __($status))
                 : back()->withErrors(['email' => [__($status)]]);
 })->middleware('guest')->name('password.update');
