@@ -40,13 +40,14 @@
                 </b-button>
             </div>
         </div>
-        <b-table id="estados_table" striped responsive :per-page="perPage" :current-page="currentPage" label-sort-asc="" label-sort-desc="" label-sort-clear=""
-            :items="estados" :busy="isBusy" :fields="fields" class="mt-3" outlined>
+        <b-table id="estados_table" striped responsive :per-page="perPage" :current-page="currentPage" label-sort-asc=""
+            label-sort-desc="" label-sort-clear="" :items="estados" :busy="isBusy" :fields="fields" class="mt-3"
+            outlined>
             <template #cell(created_at)="data">
-                {{ new Date(data.item.created_at).toLocaleString('pt-br', { timeZone: 'America/Sao_Paulo'}) }}
+                {{ new Date(data.item.created_at).toLocaleString('pt-br', { timeZone: 'America/Sao_Paulo' }) }}
             </template>
             <template #cell(updated_at)="data">
-                {{ new Date(data.item.updated_at).toLocaleString('pt-br', { timeZone: 'America/Sao_Paulo'}) }}
+                {{ new Date(data.item.updated_at).toLocaleString('pt-br', { timeZone: 'America/Sao_Paulo' }) }}
             </template>
             <template #cell(acoes)="data">
                 <b-button size="sm" variant="info" @click="detalhar(data.item.id)">
@@ -62,6 +63,24 @@
         </b-table>
         <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" aria-controls="estados_table">
         </b-pagination>
+        <!-- Visualização em PDF -->
+        <VueHtml2pdf :show-layout="false" :float-layout="true" :enable-download="false" :preview-modal="true"
+            :paginate-elements-by-height="1400" filename="pd_de_teste" :pdf-quality="2" :manual-pagination="false"
+            pdf-format="a4" pdf-orientation="landscape" pdf-content-width="800px" ref="html2Pdf">
+            <section slot="pdf-content">
+                <b-table id="estados_table" striped responsive label-sort-asc="" label-sort-desc="" label-sort-clear=""
+                    :items="estados" :fields="fields" class="mt-3" outlined>
+                    <template #cell(created_at)="data">
+                        {{ new Date(data.item.created_at).toLocaleString('pt-br', { timeZone: 'America/Sao_Paulo' }) }}
+                    </template>
+                    <template #cell(updated_at)="data">
+                        {{ new Date(data.item.updated_at).toLocaleString('pt-br', { timeZone: 'America/Sao_Paulo' }) }}
+                    </template>
+                </b-table>
+            </section>:per-page="perPage" :current-page="currentPage"
+        </VueHtml2pdf>
+        <b-button class="mx-2" @click="generateReport" variant="primary">Gerar PDF</b-button>
+        <b-button class="mx-2" @click="exportData" variant="primary">Gerar CSV</b-button>
     </div>
 </template>
 
@@ -70,10 +89,12 @@ import axios from 'axios'
 import Detalhar from './visualizar.vue';
 import Inserir from './inserir.vue';
 import Alterar from './alterar.vue';
+import VueHtml2pdf from 'vue-html2pdf'
+import { excelParser } from "../../excel-parser";
 
 export default {
     name: "listarEstado",
-    components: { Detalhar, Inserir, Alterar },
+    components: { Detalhar, Inserir, Alterar, VueHtml2pdf },
     data() {
         return {
             isBusy: false,
@@ -106,78 +127,84 @@ export default {
         },
     },
     watch: {
-            filteredEstado: function () {
-                if (this.filteredEstado != null && this.filteredEstado != "") {
-                    axios.get("http://localhost:8000/api/estado/filtrar/" + this.filteredEstado)
-                        .then(response => {
-                            if (response.status == 200) {
-                                this.estados = response.data.estados;
-                            }
-                            else {
-                                console.log("Erro ao buscar dados");
-                            }
-                        });
-                } else {
-                    this.getEstados();
-                }
+        filteredEstado: function () {
+            if (this.filteredEstado != null && this.filteredEstado != "") {
+                axios.get("http://localhost:8000/api/estado/filtrar/" + this.filteredEstado)
+                    .then(response => {
+                        if (response.status == 200) {
+                            this.estados = response.data.estados;
+                        }
+                        else {
+                            console.log("Erro ao buscar dados");
+                        }
+                    });
+            } else {
+                this.getEstados();
+            }
+        }
+    },
+    methods: {
+        toggleBusy() {
+            this.isBusy = !this.isBusy;
+        },
+        async getEstados() {
+            const response = await axios.get("http://localhost:8000/api/estado/listar");
+            if (response.status == 200) {
+                this.estados = response.data.estados;
+            }
+            else {
+                console.log("Erro ao buscar dados");
             }
         },
-        methods: {
-            toggleBusy() {
-                this.isBusy = !this.isBusy;
-            },
-            async getEstados() {
-                const response = await axios.get("http://localhost:8000/api/estado/listar");
-                if (response.status == 200) {
-                    this.estados = response.data.estados;
-                }
-                else {
-                    console.log("Erro ao buscar dados");
-                }
-            },
-            inserir() {
-                this.$refs.inserir.show();
-            },
-            alterar(id) {
-                this.id_estado_a_ser_alterado = id;
-                this.$refs.alterar.show();
-            },
-            excluir(index, id) {
-                if (confirm("Deseja realmente excluir este registro?")) {
-                    axios.delete("http://localhost:8000/api/estado/excluir/" + id)
-                        .then(response => {
-                            if (response.status == 200) {
-                                this.confirm.success = response.data.success;
-                                this.confirm.message = response.data.message;
-                                if (response.data.success == true) {
-                                    this.estados.splice(index, 1);
-                                }
+        inserir() {
+            this.$refs.inserir.show();
+        },
+        alterar(id) {
+            this.id_estado_a_ser_alterado = id;
+            this.$refs.alterar.show();
+        },
+        excluir(index, id) {
+            if (confirm("Deseja realmente excluir este registro?")) {
+                axios.delete("http://localhost:8000/api/estado/excluir/" + id)
+                    .then(response => {
+                        if (response.status == 200) {
+                            this.confirm.success = response.data.success;
+                            this.confirm.message = response.data.message;
+                            if (response.data.success == true) {
+                                this.estados.splice(index, 1);
                             }
-                        });
-                }
-            },
-            detalhar(id) {
-                this.$refs.detalhar.show();
-                this.id_detalhar_estado = id;
-            },
-            updateConfirm(confirm) {
-                this.confirm = confirm;
-            },
-            updateEstados(estado) {
-                this.estados.push(estado);
-            },
-            updateEstadoAlterado(estado) {
-                let index = this.estados.findIndex(item => item.id == estado.id)
-                this.$set(this.estados, index, estado);
-            },
-            closeModalInsert() {
-                this.$refs.inserir.hide();
-            },
-            closeModalEdit() {
-                this.$refs.alterar.hide();
-            },
-        }
-    };
+                        }
+                    });
+            }
+        },
+        detalhar(id) {
+            this.$refs.detalhar.show();
+            this.id_detalhar_estado = id;
+        },
+        updateConfirm(confirm) {
+            this.confirm = confirm;
+        },
+        updateEstados(estado) {
+            this.estados.push(estado);
+        },
+        updateEstadoAlterado(estado) {
+            let index = this.estados.findIndex(item => item.id == estado.id)
+            this.$set(this.estados, index, estado);
+        },
+        closeModalInsert() {
+            this.$refs.inserir.hide();
+        },
+        closeModalEdit() {
+            this.$refs.alterar.hide();
+        },
+        generateReport() {
+            this.$refs.html2Pdf.generatePdf()
+        },
+        exportData() {
+            excelParser().exportDataFromJSON(this.estados, null, null);
+        },
+    }
+};
 </script>
 
 <style>
